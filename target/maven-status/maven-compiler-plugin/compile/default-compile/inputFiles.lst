@@ -1,9 +1,0 @@
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBEndpoint.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\exceptions\CamelMongoMBException.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\exceptions\ConsumerChangedItsStateToNotStarted.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBComponent.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBConsumer.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBTailingTask.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBPersistentTrackingConfiguration.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBPersistentTrackingManager.java
-C:\repositorios\git\camel\components\camel-mongodb\src\main\java\org\apache\camel\component\mongomb\MongoMBConfiguration.java

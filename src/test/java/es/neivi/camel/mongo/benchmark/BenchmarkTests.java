@@ -134,22 +134,22 @@ public class BenchmarkTests {
 	}
 
 	@Test
-	public void apublishToDBDisabled() throws Exception {
+	public void apublishToDBDisabledTest() throws Exception {
 		oneProducerConsumeFromRoute(BenchmarkConfiguration.DB_PERS_DISABLED);
 	}
 
 	@Test
-	public void apublishToDBEnabled() throws Exception {
+	public void apublishToDBEnabledTest() throws Exception {
 		oneProducerConsumeFromRoute(BenchmarkConfiguration.DB_PERS_ENABLED);
 	}
 
 	@Test
-	public void apublishToESBDisabled() throws Exception {
+	public void apublishToESBDisabledTest() throws Exception {
 		oneProducerConsumeFromRoute(BenchmarkConfiguration.ESB_PERS_DISABLED);
 	}
 
 	@Test
-	public void apublishToESBEnabled() throws Exception {
+	public void apublishToESBEnabledTest() throws Exception {
 		oneProducerConsumeFromRoute(BenchmarkConfiguration.ESB_PERS_ENABLED);
 	}
 
@@ -200,22 +200,22 @@ public class BenchmarkTests {
 	}
 
 	@Test
-	public void nPublishToDBDisabled() throws Exception {
+	public void nPublishToDBDisabledTest() throws Exception {
 		nProducersConsumeFrom(BenchmarkConfiguration.DB_PERS_DISABLED);
 	}
 
 	@Test
-	public void nPublishToDBEnabled() throws Exception {
+	public void nPublishToDBEnabledTest() throws Exception {
 		nProducersConsumeFrom(BenchmarkConfiguration.DB_PERS_ENABLED);
 	}
 
 	@Test
-	public void nPublishToESBDisabled() throws Exception {
+	public void nPublishToESBDisabledTest() throws Exception {
 		nProducersConsumeFrom(BenchmarkConfiguration.ESB_PERS_DISABLED);
 	}
 
 	@Test
-	public void nPublishToESBEnabled() throws Exception {
+	public void nPublishToESBEnabledTest() throws Exception {
 		nProducersConsumeFrom(BenchmarkConfiguration.ESB_PERS_ENABLED);
 	}
 

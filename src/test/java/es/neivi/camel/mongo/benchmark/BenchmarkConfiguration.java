@@ -7,13 +7,12 @@ import org.apache.camel.component.mongomb.MongoMBPersistentTrackingConfiguration
 import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.mongodb.MongoClient;
 
 @Configuration
-@ComponentScan("es.neivi.camel.mongo.benchmark.routebuilders")
+//@ComponentScan("es.neivi.camel.mongo.benchmark.routebuilders")
 public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 
 	public static final String DB_PERS_DISABLED = "MongoDB-PersistenTracking-Disabled";
