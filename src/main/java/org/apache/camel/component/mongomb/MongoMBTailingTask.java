@@ -162,9 +162,7 @@ public class MongoMBTailingTask implements Runnable {
 
 					// Cursor was LOST
 
-					// a delay to generate a cursor can be provided by
-					// configuration
-					// wait to regenerate another cursor
+					// wait to regenerate another cursor if configured so 
 					applyDelayToGenerateCursor();
 				} else {
 
