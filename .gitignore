@@ -1,45 +1,38 @@
-/logs/
-/target/
-/target/*
-
-.metadata
-.gradle
-bin/
-tmp/
 *.tmp
 *.bak
 *.swp
 *~.nib
-local.properties
-.settings/
-.loadpath
-
-# Eclipse Core
-.project
-
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
+*.iml
+*.ipr
+*.iws
+*.log
+*.epoch
 *.launch
-
-# CDT-specific
-.cproject
-
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-# Java annotation processor (APT)
+.idea
+.DS_Store
+.ekstazi
+.settings
 .factorypath
-
-# PDT-specific
+.pmd
+.metadata
+.gradle
+.loadpath
+.project
+.externalToolBuilders/
+.cproject
+.classpath
+.factorypath
 .buildpath
-
-# sbteclipse plugin
 .target
-
-# checkstyle
 .checkstyle
-
-# TeXlipse plugin
 .texlipse
+
+id_file
+bin/
+tmp/
+/logs/
+/target/
+/target/*
+
+dependency-reduced-pom.xml
+local.properties
