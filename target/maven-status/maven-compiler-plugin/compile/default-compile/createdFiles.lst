@@ -1,0 +1,11 @@
+org\apache\camel\component\mongomb\MongoMBTailingTask.class
+org\apache\camel\component\mongomb\MongoMBPersistentTrackingConfiguration.class
+org\apache\camel\component\mongomb\MongoMBConsumer.class
+org\apache\camel\component\mongomb\MongoMBPersistentTrackingManager.class
+org\apache\camel\component\mongomb\MongoMBConfiguration.class
+org\apache\camel\component\mongomb\exceptions\ConsumerChangedItsStateToNotStarted.class
+org\apache\camel\component\mongomb\mongomb.html
+org\apache\camel\component\mongomb\mongomb.json
+org\apache\camel\component\mongomb\MongoMBComponent.class
+org\apache\camel\component\mongomb\exceptions\CamelMongoMBException.class
+org\apache\camel\component\mongomb\MongoMBEndpoint.class

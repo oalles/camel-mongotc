@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1439824074919
+Build-Jdk: 1.8.0_45
+Built-By: Omar
+Bundle-Description: Camel MongoMB component
+Bundle-DocURL: http://www.apache.org/
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: camel-mongomb
+Bundle-SymbolicName: org.apache.camel.camel-mongomb
+Bundle-Vendor: The Apache Software Foundation
+Bundle-Version: 2.16.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.apache.camel.component.mongomb;uses:="org.apache.cam
+ el,org.slf4j,com.mongodb,org.apache.camel.impl,org.apache.camel.util,or
+ g.apache.camel.component.mongomb.exceptions,org.apache.camel.spi,com.mo
+ ngodb.client,org.bson.conversions,com.mongodb.client.result,org.bson,co
+ m.mongodb.client.model,org.bson.types";version="2.16.0.SNAPSHOT",org.ap
+ ache.camel.component.mongomb.exceptions;version="2.16.0.SNAPSHOT"
+Export-Service: org.apache.camel.spi.ComponentResolver;component=mongomb
+Implementation-Title: Apache Camel
+Implementation-Version: 2.16-SNAPSHOT
+Import-Package: com.mongodb;version="[3.0,4)",com.mongodb.client;version
+ ="[3.0,4)",com.mongodb.client.model;version="[3.0,4)",com.mongodb.clien
+ t.result;version="[3.0,4)",org.apache.camel;version="[2.16,2.17)",org.a
+ pache.camel.impl;version="[2.16,2.17)",org.apache.camel.spi;version="[2
+ .16,2.17)",org.apache.camel.util;version="[2.16,2.17)",org.bson;version
+ ="[3.0,4)",org.bson.conversions;version="[3.0,4)",org.bson.types;versio
+ n="[3.0,4)",org.osgi.framework;version="[1.5,2)",org.osgi.framework.wir
+ ing;version="[1.0,2)",org.slf4j;version="[1.6,2)"
+Karaf-Info: Camel;camel-mongomb=2.16-SNAPSHOT
+Tool: Bnd-1.50.0
