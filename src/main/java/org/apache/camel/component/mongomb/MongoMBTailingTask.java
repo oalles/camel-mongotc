@@ -237,7 +237,8 @@ public class MongoMBTailingTask implements Runnable {
 					// Wait for a new event to be processed
 					if (!cursor.hasNext()) {
 						LOG.debug("INNER has NEXT returned no data");
-						cursor.close();
+						if (cursor != null)
+							cursor.close();
 					}
 
 				} else {
