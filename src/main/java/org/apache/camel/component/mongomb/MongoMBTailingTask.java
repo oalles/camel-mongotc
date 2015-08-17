@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.component.mongomb.exceptions.CamelMongoMBException;
-import org.apache.camel.component.mongomb.exceptions.ConsumerChangedItsStateToNotStarted;
+import org.apache.camel.component.mongomb.exceptions.ConsumerChangedItsStateToNotStartedException;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -169,7 +169,7 @@ public class MongoMBTailingTask implements Runnable {
 			// Consumer changed its state
 			LOG.info("+ MONGOESB: Cursor was closed");
 
-		} catch (ConsumerChangedItsStateToNotStarted e) {
+		} catch (ConsumerChangedItsStateToNotStartedException e) {
 			// Consumer changed its state
 			LOG.info("+ MONGOESB: Consumer changed its state");
 		} catch (MongoException e) {
@@ -189,7 +189,7 @@ public class MongoMBTailingTask implements Runnable {
 	 * consumer changes its state to a not started state. throws
 	 * CamelMongoMBConsumerNotStarted to sign a change in consumer states.
 	 * 
-	 * @throws ConsumerChangedItsStateToNotStarted
+	 * @throws ConsumerChangedItsStateToNotStartedException
 	 *             to signal consumer state changed from started
 	 */
 	private void iterateCursor(final MongoCursor<Document> cursor) {
@@ -243,7 +243,7 @@ public class MongoMBTailingTask implements Runnable {
 
 				// Check whether to keep execution
 				if (!consumerIsStarted())
-					throw new ConsumerChangedItsStateToNotStarted(
+					throw new ConsumerChangedItsStateToNotStartedException(
 							"Cursor Changed its state to not started");
 			} // while
 
@@ -262,7 +262,7 @@ public class MongoMBTailingTask implements Runnable {
 		} catch (IllegalStateException e) {
 			// Cursor was closed by other THREAD (consumer cleaningup?)
 			LOG.info("Cursor being iterated was closed\n{}", e.toString());
-		} catch (ConsumerChangedItsStateToNotStarted e) {
+		} catch (ConsumerChangedItsStateToNotStartedException e) {
 			throw e;
 		} finally {
 
