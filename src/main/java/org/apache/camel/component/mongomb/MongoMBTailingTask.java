@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.component.mongomb.exceptions.CamelMongoMBException;
+import org.apache.camel.component.mongomb.exceptions.CappedCollectionRequiredException;
 import org.apache.camel.component.mongomb.exceptions.ConsumerChangedItsStateToNotStartedException;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -56,32 +57,39 @@ public class MongoMBTailingTask implements Runnable {
 	// compression(capped, size is fixed)
 	private MongoCollection<Document> eventsCollection;
 
-	/**
-	 * If proper persistent tracking configuration is set, this task uses a a
-	 * PersistentTrackingManager
+	/*
+	 * PERSISTENT TRACKER.
+	 * 
+	 * If proper persistent tracking configuration is set, tracker != null &&
+	 * cursorRegenerationDelay != 0
 	 */
+	
 	private MongoMBPersistentTrackingManager tracker;
-	private ObjectId lastTrackedId = null;
 	private long cursorRegenerationDelay;
+	private ObjectId lastTrackedId = null;
 
 	public MongoMBTailingTask(MongoMBConsumer consumer) {
+		
 		this.consumer = consumer;
+		
 		MongoMBConfiguration configuration = getConfiguration();
 		MongoDatabase mongoDatabase = configuration.getMongoDatabase();
 		String collectionName = configuration.getCollection();
 		eventsCollection = mongoDatabase.getCollection(collectionName);
-		// Check is a capped collection...
+		
+		// Check eventsCollection is a capped collection...
 		final Document collStatsCommand = new Document("collStats",
 				collectionName);
 		Boolean isCapped = mongoDatabase.runCommand(collStatsCommand,
 				ReadPreference.primary()).getBoolean("capped");
 		if (!isCapped) {
-			throw new CamelMongoMBException(
+			throw new CappedCollectionRequiredException(
 					"Tailable cursors are only compatible with capped collections, and collection "
 							+ collectionName + " is not capped.");
 		}
 
-		// Persistent TRACKING ENABLED?
+		// Persistent TRACKING ENABLED? If enabled tracker != null &&
+		// cursorRegenerationDelay != 0
 		if (configuration.isPersistentTrackingEnable()) {
 			tracker = new MongoMBPersistentTrackingManager(configuration);
 			cursorRegenerationDelay = getConfiguration()
@@ -252,25 +260,32 @@ public class MongoMBTailingTask implements Runnable {
 			LOG.error("\n\nMONGOESB - NETWORK problems: Server Address: {}", e
 					.getServerAddress().toString());
 
-			// Not recov
+			// Not recoverable. Do not regenerate the cursor
 			throw new CamelMongoMBException(String.format(
 					"Network Problemns detected. Server address: %s", e
 							.getServerAddress().toString()));
-		} catch (MongoQueryException e) { // MongoCursorNotFoundException
+		} catch (MongoQueryException e) {
+			// MongoCursorNotFoundException
 			// The cursor was closed
+			// Recoverable: Do regenerate the cursor
 			LOG.info("Cursor {} has been closed.");
 		} catch (IllegalStateException e) {
-			// Cursor was closed by other THREAD (consumer cleaningup?)
+			// .hasNext(): Cursor was closed by other THREAD (consumer
+			// cleaningup)?)
+			// Recoverable. Do regenerate the cursor.
 			LOG.info("Cursor being iterated was closed\n{}", e.toString());
 		} catch (ConsumerChangedItsStateToNotStartedException e) {
+			// Not recoverable: Do not regenerate the cursor.
 			throw e;
 		} finally {
 
+			// persist tracking state
 			if (tracker != null && lastProcessedId != null) {
 				tracker.persistLastTrackedEventId(lastProcessedId);
 				lastTrackedId = lastProcessedId;
 			}
 
+			// Cleanup resources.
 			if (cursor != null)
 				cursor.close();
 		}
