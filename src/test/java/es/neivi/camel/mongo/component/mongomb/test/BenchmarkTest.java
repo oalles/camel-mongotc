@@ -1,4 +1,4 @@
-package es.neivi.camel.mongo.benchmark;
+package es.neivi.camel.mongo.component.mongomb.test;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.util.StopWatch;
 
 import com.mongodb.MongoClient;
@@ -40,11 +41,11 @@ import com.mongodb.client.model.CreateCollectionOptions;
 @MockEndpoints
 // @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BenchmarkTests {
+public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 
 	// dependency: camel-spring-javaconfig
 
-	private static Logger LOG = LoggerFactory.getLogger(BenchmarkTests.class);
+	private static Logger LOG = LoggerFactory.getLogger(BenchmarkTest.class);
 
 	@Autowired
 	private CamelContext camelContext;

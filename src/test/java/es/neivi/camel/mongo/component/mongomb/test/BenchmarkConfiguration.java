@@ -1,4 +1,4 @@
-package es.neivi.camel.mongo.benchmark;
+package es.neivi.camel.mongo.component.mongomb.test;
 
 import java.net.UnknownHostException;
 
