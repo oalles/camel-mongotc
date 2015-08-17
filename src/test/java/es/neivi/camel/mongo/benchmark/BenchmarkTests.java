@@ -94,7 +94,7 @@ public class BenchmarkTests {
 					new Date());
 			documents.add(document);
 		}
-		db.getCollection(BenchmarkConfiguration.collectionName)
+		db.getCollection(BenchmarkConfiguration.EVENTS_COLLECTION_NAME)
 				.withWriteConcern(WriteConcern.JOURNAL_SAFE)
 				.insertMany(documents);
 	}
@@ -221,7 +221,7 @@ public class BenchmarkTests {
 
 	public MongoDatabase getMongoDatabase() {
 		if (db == null) {
-			db = mongo.getDatabase(BenchmarkConfiguration.dbName);
+			db = mongo.getDatabase(BenchmarkConfiguration.DB_NAME);
 		}
 		return db;
 	}
@@ -230,13 +230,13 @@ public class BenchmarkTests {
 		if (eventsCollection == null) {
 			MongoDatabase db = getMongoDatabase();
 			eventsCollection = db
-					.getCollection(BenchmarkConfiguration.collectionName);
+					.getCollection(BenchmarkConfiguration.EVENTS_COLLECTION_NAME);
 			eventsCollection.drop();
 
 			// Create collection
 			getMongoDatabase()
 					.createCollection(
-							BenchmarkConfiguration.collectionName,
+							BenchmarkConfiguration.EVENTS_COLLECTION_NAME,
 							new CreateCollectionOptions()
 									.capped(true)
 									.sizeInBytes(100000000)
@@ -245,7 +245,7 @@ public class BenchmarkTests {
 													* BenchmarkConfiguration.PRODUCERS)); //
 
 			eventsCollection = db
-					.getCollection(BenchmarkConfiguration.collectionName);
+					.getCollection(BenchmarkConfiguration.EVENTS_COLLECTION_NAME);
 		}
 		return eventsCollection;
 	}

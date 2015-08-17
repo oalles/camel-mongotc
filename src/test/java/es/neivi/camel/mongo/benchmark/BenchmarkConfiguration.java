@@ -12,57 +12,58 @@ import org.springframework.context.annotation.Configuration;
 import com.mongodb.MongoClient;
 
 @Configuration
-//@ComponentScan("es.neivi.camel.mongo.benchmark.routebuilders")
+// @ComponentScan("es.neivi.camel.mongo.benchmark.routebuilders")
 public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 
 	public static final String DB_PERS_DISABLED = "MongoDB-PersistenTracking-Disabled";
 	public static final String DB_PERS_ENABLED = "MongoDB-PersistenTracking-Enabled";
 	public static final String ESB_PERS_DISABLED = "MongoMB-PersistenTracking-Disabled";
 	public static final String ESB_PERS_ENABLED = "MongoMB-PersistenTracking-Enabled";
-	public static final String dbName = "eventsms-tests";
-	public static final String collectionName = "events";
-	public static final String consumerId = "backend-ui";
-	public static final long cursorRegenerationDelay = 2000;
+	public static final String DB_NAME = "eventsms-tests";
+	public static final String EVENTS_COLLECTION_NAME = "events";
+	public static final String TRACKER_COLLECTION_NAME = "tracker";
+	public static final String CONSUMER_ID = "backend-ui";
+	public static final long CURSOR_REGENERATION_DELAY = 2000;
 	public static final int DOCUMENTS_PER_PRODUCER = 40000;
 	public static final int PRODUCERS = 10;
 
 	public static String buildDBDisabledUri() {
 		return new StringBuffer(String.format(
-				"mongodb:mongoClient?database=%s&collection=%s", dbName,
-				collectionName)).append("&tailTrackIncreasingField=_id")
+				"mongodb:mongoClient?database=%s&collection=%s", DB_NAME,
+				EVENTS_COLLECTION_NAME)).append("&tailTrackIncreasingField=_id")
 				.toString();
 	}
 
 	public static String buildDBEnabledUri() {
 		return new StringBuffer(String.format(
-				"mongodb:mongoClient?database=%s&collection=%s", dbName,
-				collectionName))
+				"mongodb:mongoClient?database=%s&collection=%s", DB_NAME,
+				EVENTS_COLLECTION_NAME))
 				.append("&persistentTailTracking=")
 				.append(true)
 				.append("&tailTrackIncreasingField=_id")
 				.append("&persistentId=")
-				.append(consumerId)
+				.append(CONSUMER_ID)
 				.append("&tailTrackCollection=")
 				.append(MongoMBPersistentTrackingConfiguration.TRACKER_COLLECTION_NAME)
 				.append("&tailTrackField=")
 				.append(MongoMBPersistentTrackingConfiguration.LAST_TRACK_ID_FIELD)
 				.append("&cursorRegenerationDelay=")
-				.append(cursorRegenerationDelay).toString();
+				.append(CURSOR_REGENERATION_DELAY).toString();
 	}
 
 	public static String buildESBdisabledUri() {
 		return new StringBuffer(String.format(
-				"mongomb:mongoClient?database=%s&collection=%s", dbName,
-				collectionName)).toString();
+				"mongomb:mongoClient?database=%s&collection=%s", DB_NAME,
+				EVENTS_COLLECTION_NAME)).toString();
 	}
 
 	public static String buildESBEnabledUri() {
 		return new StringBuffer(String.format(
-				"mongomb:mongoClient?database=%s&collection=%s", dbName,
-				collectionName)).append("&persistent.consumerId=")
-				.append(consumerId)
+				"mongomb:mongoClient?database=%s&collection=%s", DB_NAME,
+				EVENTS_COLLECTION_NAME)).append("&persistent.consumerId=")
+				.append(CONSUMER_ID)
 				.append("&persistent.cursorRegenerationDelay=")
-				.append(cursorRegenerationDelay).toString();
+				.append(CURSOR_REGENERATION_DELAY).toString();
 	}
 
 	@Qualifier("mongoClient")
