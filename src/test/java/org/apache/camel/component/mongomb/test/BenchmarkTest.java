@@ -1,4 +1,4 @@
-package es.neivi.camel.mongo.component.mongomb.test;
+package org.apache.camel.component.mongomb.test;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,10 +37,9 @@ import com.mongodb.client.model.CreateCollectionOptions;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { BenchmarkConfiguration.class }, loader = CamelSpringDelegatingTestContextLoader.class)
-// @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @MockEndpoints
-// @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+// @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 
 	// dependency: camel-spring-javaconfig
@@ -70,7 +69,8 @@ public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 		eventsCollection = getEventsCollection();
 
 		// Drop tracker collection
-		getMongoDatabase().getCollection("tracker").drop();
+		getMongoDatabase().getCollection(
+				BenchmarkConfiguration.TRACKER_COLLECTION_NAME).drop();
 
 		mock.reset();
 	}
@@ -122,8 +122,8 @@ public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						stopWatch.stop();
-						LOG.info("\n\nTime Consumed:\n"
-								+ stopWatch.prettyPrint() + "\n\n");
+						LOG.info("\nTime Consumed:\n"
+								+ stopWatch.prettyPrint() + "\n");
 					}
 				});
 
@@ -145,13 +145,13 @@ public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void apublishToESBDisabledTest() throws Exception {
-		oneProducerConsumeFromRoute(BenchmarkConfiguration.ESB_PERS_DISABLED);
+	public void apublishToMBDisabledTest() throws Exception {
+		oneProducerConsumeFromRoute(BenchmarkConfiguration.MB_PERS_DISABLED);
 	}
 
 	@Test
-	public void apublishToESBEnabledTest() throws Exception {
-		oneProducerConsumeFromRoute(BenchmarkConfiguration.ESB_PERS_ENABLED);
+	public void apublishToMBEnabledTest() throws Exception {
+		oneProducerConsumeFromRoute(BenchmarkConfiguration.MB_PERS_ENABLED);
 	}
 
 	private void nProducersConsumeFrom(final String routeId) throws Exception {
@@ -211,13 +211,13 @@ public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void nPublishToESBDisabledTest() throws Exception {
-		nProducersConsumeFrom(BenchmarkConfiguration.ESB_PERS_DISABLED);
+	public void nPublishToMBDisabledTest() throws Exception {
+		nProducersConsumeFrom(BenchmarkConfiguration.MB_PERS_DISABLED);
 	}
 
 	@Test
-	public void nPublishToESBEnabledTest() throws Exception {
-		nProducersConsumeFrom(BenchmarkConfiguration.ESB_PERS_ENABLED);
+	public void nPublishToMBEnabledTest() throws Exception {
+		nProducersConsumeFrom(BenchmarkConfiguration.MB_PERS_ENABLED);
 	}
 
 	public MongoDatabase getMongoDatabase() {

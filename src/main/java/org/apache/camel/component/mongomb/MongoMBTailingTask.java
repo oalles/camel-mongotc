@@ -60,23 +60,23 @@ public class MongoMBTailingTask implements Runnable {
 	/*
 	 * PERSISTENT TRACKER.
 	 * 
-	 * If proper persistent tracking configuration is set, tracker != null &&
+	 * If proper persistent tracking configuration is set -> tracker != null &&
 	 * cursorRegenerationDelay != 0
 	 */
-	
+
 	private MongoMBPersistentTrackingManager tracker;
 	private long cursorRegenerationDelay;
 	private ObjectId lastTrackedId = null;
 
 	public MongoMBTailingTask(MongoMBConsumer consumer) {
-		
+
 		this.consumer = consumer;
-		
+
 		MongoMBConfiguration configuration = getConfiguration();
 		MongoDatabase mongoDatabase = configuration.getMongoDatabase();
 		String collectionName = configuration.getCollection();
 		eventsCollection = mongoDatabase.getCollection(collectionName);
-		
+
 		// Check eventsCollection is a capped collection...
 		final Document collStatsCommand = new Document("collStats",
 				collectionName);
@@ -137,6 +137,10 @@ public class MongoMBTailingTask implements Runnable {
 	/**
 	 * TAILING TASK:
 	 * 
+	 * 1. Build a cursor 2. Fetch documents from that cursor till cursor closed
+	 * o consumer chages its state
+	 * 
+	 * 
 	 */
 	@Override
 	public void run() {
@@ -171,15 +175,20 @@ public class MongoMBTailingTask implements Runnable {
 				}
 
 			} // while(keepRunning) block
+
 		} catch (IllegalStateException e) {
 
-			// Cursor was closed not by consumer
-			// Consumer changed its state
+			// hasNext() throws IllegalStateException when cursor is close by
+			// other thread.
 			LOG.info("+ MONGOESB: Cursor was closed");
+
+			// STOP or Suspend
 
 		} catch (ConsumerChangedItsStateToNotStartedException e) {
 			// Consumer changed its state
 			LOG.info("+ MONGOESB: Consumer changed its state");
+			// STOP or Suspend
+
 		} catch (MongoException e) {
 			LOG.info("+ MONGOESB: MongoException - STOP EXECUTION - {}",
 					e.toString());

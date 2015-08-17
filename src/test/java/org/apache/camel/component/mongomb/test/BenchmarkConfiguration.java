@@ -1,4 +1,4 @@
-package es.neivi.camel.mongo.component.mongomb.test;
+package org.apache.camel.component.mongomb.test;
 
 import java.net.UnknownHostException;
 
@@ -15,10 +15,10 @@ import com.mongodb.MongoClient;
 // @ComponentScan("es.neivi.camel.mongo.benchmark.routebuilders")
 public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 
-	public static final String DB_PERS_DISABLED = "MongoDB-PersistenTracking-Disabled";
-	public static final String DB_PERS_ENABLED = "MongoDB-PersistenTracking-Enabled";
-	public static final String ESB_PERS_DISABLED = "MongoMB-PersistenTracking-Disabled";
-	public static final String ESB_PERS_ENABLED = "MongoMB-PersistenTracking-Enabled";
+	public static final String DB_PERS_DISABLED = "mongodb-PersistenTracking-Disabled";
+	public static final String DB_PERS_ENABLED = "mongodb-PersistenTracking-Enabled";
+	public static final String MB_PERS_DISABLED = "mongomb-PersistenTracking-Disabled";
+	public static final String MB_PERS_ENABLED = "mongomb-PersistenTracking-Enabled";
 	public static final String DB_NAME = "eventsms-tests";
 	public static final String EVENTS_COLLECTION_NAME = "events";
 	public static final String TRACKER_COLLECTION_NAME = "tracker";
@@ -27,14 +27,14 @@ public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 	public static final int DOCUMENTS_PER_PRODUCER = 40000;
 	public static final int PRODUCERS = 10;
 
-	public static String buildDBDisabledUri() {
+	public static String buildMongoDBTrackingDisabledUri() {
 		return new StringBuffer(String.format(
 				"mongodb:mongoClient?database=%s&collection=%s", DB_NAME,
-				EVENTS_COLLECTION_NAME)).append("&tailTrackIncreasingField=_id")
-				.toString();
+				EVENTS_COLLECTION_NAME))
+				.append("&tailTrackIncreasingField=_id").toString();
 	}
 
-	public static String buildDBEnabledUri() {
+	public static String buildMongoDBTrackingBEnabledUri() {
 		return new StringBuffer(String.format(
 				"mongodb:mongoClient?database=%s&collection=%s", DB_NAME,
 				EVENTS_COLLECTION_NAME))
@@ -51,13 +51,13 @@ public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 				.append(CURSOR_REGENERATION_DELAY).toString();
 	}
 
-	public static String buildESBdisabledUri() {
+	public static String buildMongoMBTrackingDisabledUri() {
 		return new StringBuffer(String.format(
 				"mongomb:mongoClient?database=%s&collection=%s", DB_NAME,
 				EVENTS_COLLECTION_NAME)).toString();
 	}
 
-	public static String buildESBEnabledUri() {
+	public static String buildMongoMBTrackingEnabledUri() {
 		return new StringBuffer(String.format(
 				"mongomb:mongoClient?database=%s&collection=%s", DB_NAME,
 				EVENTS_COLLECTION_NAME)).append("&persistent.consumerId=")
@@ -80,16 +80,16 @@ public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 			public void configure() throws Exception {
 				// Ruta con PERSISTENT Tail Tracking desactivado
 
-				from(buildESBdisabledUri()).routeId(ESB_PERS_DISABLED)
+				from(buildMongoMBTrackingDisabledUri()).routeId(MB_PERS_DISABLED)
 						.autoStartup(false).to("mock:test");
 
-				from(buildESBEnabledUri()).routeId(ESB_PERS_ENABLED)
+				from(buildMongoMBTrackingEnabledUri()).routeId(MB_PERS_ENABLED)
 						.autoStartup(false).to("mock:test");
 
-				from(buildDBDisabledUri()).autoStartup(false).to("mock:test")
+				from(buildMongoDBTrackingDisabledUri()).autoStartup(false).to("mock:test")
 						.routeId(DB_PERS_DISABLED);
 
-				from(buildDBEnabledUri())
+				from(buildMongoDBTrackingBEnabledUri())
 						// .id("consumer4")
 						.autoStartup(false).to("mock:test")
 						.routeId(DB_PERS_ENABLED);

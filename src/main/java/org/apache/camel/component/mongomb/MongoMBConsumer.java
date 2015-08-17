@@ -61,14 +61,15 @@ public class MongoMBConsumer extends DefaultConsumer {
 		// fetch lastTrackedId if needed
 		tailingTask.init();
 
-		// Start consuming from the cursor.	
+		// Start consuming from the cursor.
 		executor.execute(tailingTask);
+
 	}
 
 	@Override
 	protected void doStop() throws Exception {
 
-		super.doStop();	
+		super.doStop();
 
 		if (executor != null)
 			executor.shutdown();
@@ -82,7 +83,7 @@ public class MongoMBConsumer extends DefaultConsumer {
 		// starting...
 		super.doResume();
 
-		// fetch lastTrackedId if needed 
+		// fetch lastTrackedId if needed
 		tailingTask.init();
 
 		// Iterate cursor
