@@ -16,36 +16,41 @@
  */
 package org.apache.camel.component.mongomb;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.impl.DefaultConsumer;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import es.neivi.mtc.DocumentHandler;
+import es.neivi.mtc.TailingTask;
+import es.neivi.mtc.configuration.MTCConfiguration;
+import es.neivi.mtc.configuration.MTCPersistentTrackingConfiguration;
 
 /**
  * The MongoESB consumer consumes messages from a capped collection with a
  * tailabable consumer.
  */
 // It is an STATEFUL Service
-public class MongoMBConsumer extends DefaultConsumer {
+public class MongoMBConsumer extends DefaultConsumer implements DocumentHandler {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(MongoMBConsumer.class);
 
-	private MongoMBTailingTask tailingTask;
-	private ExecutorService executor;
+	private TailingTask tailingTask;
+	private Executor executor;
 
 	public MongoMBConsumer(MongoMBEndpoint endpoint, Processor processor) {
-		super(endpoint, processor);
-		tailingTask = new MongoMBTailingTask(this);
 
-		// Obtain a reference to a task executor to run the tailing task
-		if (executor == null)
-			executor = getEndpoint()
-					.getCamelContext()
-					.getExecutorServiceManager()
-					.newFixedThreadPool(this, getEndpoint().getEndpointUri(), 1);
+		super(endpoint, processor);
+
+		MTCConfiguration mtcContiguration = buildMTCConfigurationFromMongoMBConfiguration(getConfiguration());
+		tailingTask = new TailingTask(mtcContiguration);
+		tailingTask.setDocumentHandler(this);
+
 	}
 
 	@Override
@@ -59,10 +64,10 @@ public class MongoMBConsumer extends DefaultConsumer {
 		// here this.isStarted()==false
 
 		// fetch lastTrackedId if needed
-		tailingTask.init();
+		tailingTask.start();
 
 		// Start consuming from the cursor.
-		executor.execute(tailingTask);
+		getExecutor().execute(tailingTask);
 
 	}
 
@@ -71,23 +76,10 @@ public class MongoMBConsumer extends DefaultConsumer {
 
 		super.doStop();
 
-		if (executor != null)
-			executor.shutdown();
-	}
+		tailingTask.stop();
 
-	@Override
-	protected void doResume() throws Exception {
-
-		// Pre START logic:
-
-		// starting...
-		super.doResume();
-
-		// fetch lastTrackedId if needed
-		tailingTask.init();
-
-		// Iterate cursor
-		executor.execute(tailingTask);
+		// if (executor != null)
+		// executor.shutdown();
 	}
 
 	@Override
@@ -97,5 +89,55 @@ public class MongoMBConsumer extends DefaultConsumer {
 
 	public MongoMBConfiguration getConfiguration() {
 		return getEndpoint().getConfiguration();
+	}
+
+	@Override
+	public void handleDocument(Document doc) {
+
+		Exchange exchange = getEndpoint().createExchange();
+		exchange.getIn().setBody(doc);
+		try {
+			this.getProcessor().process(exchange);
+		} catch (Exception e) {
+			// exceptions in processor chain
+			exchange.setException(e);
+		}
+	}
+
+	public static MTCConfiguration buildMTCConfigurationFromMongoMBConfiguration(
+			MongoMBConfiguration mbConfiguration) {
+
+		if (mbConfiguration == null)
+			throw new IllegalArgumentException(
+					"Not null MongoMBConfiguration expected");
+
+		MTCConfiguration mtcContiguration = new MTCConfiguration();
+		mtcContiguration.setCollection(mbConfiguration.getCollection());
+		mtcContiguration.setDatabase(mbConfiguration.getDatabase());
+		mtcContiguration.setMongoClient(mbConfiguration.getMongoClient());
+
+		MongoMBPersistentTrackingConfiguration pConf = mbConfiguration
+				.getPersistentTrackingConfiguration();
+		if (pConf != null) {
+			MTCPersistentTrackingConfiguration pMtcConfiguration = new MTCPersistentTrackingConfiguration();
+			pMtcConfiguration.setConsumerId(pConf.getConsumerId());
+			pMtcConfiguration.setCursorRegenerationDelay(pConf
+					.getCursorRegenerationDelay());
+			mtcContiguration
+					.setPersistentTrackingConfiguration(pMtcConfiguration);
+		}
+
+		return mtcContiguration;
+
+	}
+
+	public Executor getExecutor() {
+		// Obtain a reference to a task executor to run the tailing task
+		if (executor == null)
+			executor = getEndpoint()
+					.getCamelContext()
+					.getExecutorServiceManager()
+					.newFixedThreadPool(this, getEndpoint().getEndpointUri(), 1);
+		return executor;
 	}
 }

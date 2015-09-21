@@ -1,7 +1,5 @@
 package org.apache.camel.component.mongomb;
 
-import java.util.concurrent.ExecutorService;
-
 import org.apache.camel.component.mongomb.exceptions.CamelMongoMBException;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
@@ -91,7 +89,7 @@ public class MongoMBConfiguration {
 		this.collection = collection;
 	}
 
-	public MongoDatabase getMongoDatabase() {
+	public MongoDatabase getMongoDatabase() {  
 		if (mongoDatabase == null) {
 			mongoDatabase = mongoClient.getDatabase(database);
 		}

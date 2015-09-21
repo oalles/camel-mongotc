@@ -85,9 +85,9 @@ public class MongoMBComponent extends UriEndpointComponent {
 		StringBuffer m = new StringBuffer(
 				"\n+ MongoMB - Valid Configuration\n+ MongoMB - Persistent tracking:");
 		if (config.isPersistentTrackingEnable())
-			m.append(" ENABLED.\n");
+			m.append(" ENABLED.");
 		else
-			m.append(" DISABLED.\n");
+			m.append(" DISABLED.");
 		LOG.info(m.toString());
 
 		// Component is an Endpoint factory. So far, just one Endpoint type.

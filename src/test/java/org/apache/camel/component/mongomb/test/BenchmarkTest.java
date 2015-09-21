@@ -195,7 +195,7 @@ public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 
 		camelContext.startRoute(routeId);
 
-		getExecutorService().awaitTermination(120, TimeUnit.SECONDS);
+		getExecutorService().awaitTermination(20, TimeUnit.SECONDS);
 		// Thread.sleep(30000);
 		mock.assertIsSatisfied();
 	}

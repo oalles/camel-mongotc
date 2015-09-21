@@ -42,12 +42,18 @@
 			<artifactId>camel-jackson</artifactId>
 		</dependency>
 
-		<!-- MongoDB driver dependency -->
 		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo-java-driver-version}</version>
+			<groupId>es.neivi</groupId>
+			<artifactId>mtc</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<!-- MongoDB driver dependency -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.mongodb</groupId> -->
+		<!-- <artifactId>mongo-java-driver</artifactId> -->
+		<!-- <version>${mongo-java-driver-version}</version> -->
+		<!-- </dependency> -->
 
 		<!-- test dependencies -->
 		<dependency>
