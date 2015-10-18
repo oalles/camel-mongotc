@@ -81,8 +81,8 @@ public class BenchmarkTest extends AbstractJUnit4SpringContextTests {
 			try {
 				camelContext.stopRoute(route.getId());
 			} catch (Exception e) {
-				LOG.error("Exception trying to stop de routes\n{}",
-						e.toString());
+				LOG.error("Exception trying to stop de routes",
+						e);
 			}
 		}
 	}
