@@ -1,4 +1,4 @@
-package org.apache.camel.component.mongomb.test;
+package org.apache.camel.component.mongotc.test;
 
 import java.util.ArrayList;
 import java.util.Date;

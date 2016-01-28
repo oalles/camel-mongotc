@@ -1,9 +1,9 @@
-package org.apache.camel.component.mongomb.test;
+package org.apache.camel.component.mongotc.test;
 
 import java.net.UnknownHostException;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.mongomb.MongoMBPersistentTrackingConfiguration;
+import org.apache.camel.component.mongotc.MongoTCPersistentTrackingConfiguration;
 import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,8 @@ public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 
 	public static final String DB_PERS_DISABLED = "mongodb-PersistenTracking-Disabled";
 	public static final String DB_PERS_ENABLED = "mongodb-PersistenTracking-Enabled";
-	public static final String MB_PERS_DISABLED = "mongomb-PersistenTracking-Disabled";
-	public static final String MB_PERS_ENABLED = "mongomb-PersistenTracking-Enabled";
+	public static final String MB_PERS_DISABLED = "mongotc-PersistenTracking-Disabled";
+	public static final String MB_PERS_ENABLED = "mongotc-PersistenTracking-Enabled";
 	public static final String DB_NAME = "eventsms-tests";
 	public static final String EVENTS_COLLECTION_NAME = "events";
 	public static final String TRACKER_COLLECTION_NAME = "tracker";
@@ -44,22 +44,22 @@ public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 				.append("&persistentId=")
 				.append(CONSUMER_ID)
 				.append("&tailTrackCollection=")
-				.append(MongoMBPersistentTrackingConfiguration.TRACKER_COLLECTION_NAME)
+				.append(MongoTCPersistentTrackingConfiguration.TRACKER_COLLECTION_NAME)
 				.append("&tailTrackField=")
-				.append(MongoMBPersistentTrackingConfiguration.LAST_TRACK_ID_FIELD)
+				.append(MongoTCPersistentTrackingConfiguration.LAST_TRACK_ID_FIELD)
 				.append("&cursorRegenerationDelay=")
 				.append(CURSOR_REGENERATION_DELAY).toString();
 	}
 
-	public static String buildMongoMBTrackingDisabledUri() {
+	public static String buildMongoTCTrackingDisabledUri() {
 		return new StringBuffer(String.format(
-				"mongomb:mongoClient?database=%s&collection=%s", DB_NAME,
+				"mongotc:mongoClient?database=%s&collection=%s", DB_NAME,
 				EVENTS_COLLECTION_NAME)).toString();
 	}
 
-	public static String buildMongoMBTrackingEnabledUri() {
+	public static String buildMongoTCTrackingEnabledUri() {
 		return new StringBuffer(String.format(
-				"mongomb:mongoClient?database=%s&collection=%s", DB_NAME,
+				"mongotc:mongoClient?database=%s&collection=%s", DB_NAME,
 				EVENTS_COLLECTION_NAME)).append("&persistent.consumerId=")
 				.append(CONSUMER_ID)
 				.append("&persistent.cursorRegenerationDelay=")
@@ -80,10 +80,10 @@ public class BenchmarkConfiguration extends SingleRouteCamelConfiguration {
 			public void configure() throws Exception {
 				// Ruta con PERSISTENT Tail Tracking desactivado
 
-				from(buildMongoMBTrackingDisabledUri()).routeId(MB_PERS_DISABLED)
+				from(buildMongoTCTrackingDisabledUri()).routeId(MB_PERS_DISABLED)
 						.autoStartup(false).to("mock:test");
 
-				from(buildMongoMBTrackingEnabledUri()).routeId(MB_PERS_ENABLED)
+				from(buildMongoTCTrackingEnabledUri()).routeId(MB_PERS_ENABLED)
 						.autoStartup(false).to("mock:test");
 
 				from(buildMongoDBTrackingDisabledUri()).autoStartup(false).to("mock:test")

@@ -1,6 +1,6 @@
-package org.apache.camel.component.mongomb;
+package org.apache.camel.component.mongotc;
 
-import org.apache.camel.component.mongomb.exceptions.CamelMongoMBException;
+import org.apache.camel.component.mongotc.exceptions.CamelMongoTCException;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.slf4j.Logger;
@@ -14,10 +14,10 @@ import com.mongodb.client.MongoDatabase;
  * the data needed for exchange interaction.
  */
 @UriParams
-public class MongoMBConfiguration {
+public class MongoTCConfiguration {
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(MongoMBConfiguration.class);
+			.getLogger(MongoTCConfiguration.class);
 
 	/**
 	 * If the name of the database is not provided a database named
@@ -56,7 +56,7 @@ public class MongoMBConfiguration {
 	 * tracking system. If this value is null, there is no tracking information
 	 * provided, meaning that persistent tracking is going to be disable.
 	 */
-	private MongoMBPersistentTrackingConfiguration persistentTrackingConfiguration;
+	private MongoTCPersistentTrackingConfiguration persistentTrackingConfiguration;
 
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
@@ -100,12 +100,12 @@ public class MongoMBConfiguration {
 		this.mongoDatabase = mongoDatabase;
 	}
 
-	public MongoMBPersistentTrackingConfiguration getPersistentTrackingConfiguration() {
+	public MongoTCPersistentTrackingConfiguration getPersistentTrackingConfiguration() {
 		return persistentTrackingConfiguration;
 	}
 
 	public void setPersistentTrackingConfiguration(
-			MongoMBPersistentTrackingConfiguration persistentTrackingConfiguration) {
+			MongoTCPersistentTrackingConfiguration persistentTrackingConfiguration) {
 		this.persistentTrackingConfiguration = persistentTrackingConfiguration;
 	}
 
@@ -128,7 +128,7 @@ public class MongoMBConfiguration {
 						.getConsumerId().isEmpty()))) {
 			String m = "Invalid MongoESBConfiguration. Please check your URI. Remember you need MongoClient instance in Camel Registry, and if persistent tracking configuration enable you a nonempty consumer task id";
 			LOG.error(m);
-			throw new CamelMongoMBException(m);
+			throw new CamelMongoTCException(m);
 		}
 	}
 }

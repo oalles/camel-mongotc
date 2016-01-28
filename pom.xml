@@ -19,14 +19,14 @@
 		<version>2.16-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>camel-mongomb</artifactId>
+	<artifactId>camel-mongotc</artifactId>
 	<packaging>bundle</packaging>
-	<name>Camel :: MongoMB</name>
-	<description>Camel MongoMB component</description>
+	<name>Camel :: MongoTC</name>
+	<description>Camel MongoTC component</description>
 
 	<properties>
-		<camel.osgi.export.pkg>org.apache.camel.component.mongomb.*</camel.osgi.export.pkg>
-		<camel.osgi.export.service>org.apache.camel.spi.ComponentResolver;component=mongomb</camel.osgi.export.service>
+		<camel.osgi.export.pkg>org.apache.camel.component.mongotc.*</camel.osgi.export.pkg>
+		<camel.osgi.export.service>org.apache.camel.spi.ComponentResolver;component=MongoTC</camel.osgi.export.service>
 	</properties>
 
 	<dependencies>

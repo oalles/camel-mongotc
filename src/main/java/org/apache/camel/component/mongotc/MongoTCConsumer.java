@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.mongomb;
+package org.apache.camel.component.mongotc;
 
 import java.util.concurrent.Executor;
 
@@ -35,19 +35,19 @@ import es.neivi.mtc.configuration.MTCPersistentTrackingConfiguration;
  * tailabable consumer.
  */
 // It is an STATEFUL Service
-public class MongoMBConsumer extends DefaultConsumer implements DocumentHandler {
+public class MongoTCConsumer extends DefaultConsumer implements DocumentHandler {
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(MongoMBConsumer.class);
+			.getLogger(MongoTCConsumer.class);
 
 	private TailingTask tailingTask;
 	private Executor executor;
 
-	public MongoMBConsumer(MongoMBEndpoint endpoint, Processor processor) {
+	public MongoTCConsumer(MongoTCEndpoint endpoint, Processor processor) {
 
 		super(endpoint, processor);
 
-		MTCConfiguration mtcContiguration = buildMTCConfigurationFromMongoMBConfiguration(getConfiguration());
+		MTCConfiguration mtcContiguration = buildMTCConfigurationFromMongoTCConfiguration(getConfiguration());
 		tailingTask = new TailingTask(mtcContiguration);
 		tailingTask.setDocumentHandler(this);
 
@@ -83,11 +83,11 @@ public class MongoMBConsumer extends DefaultConsumer implements DocumentHandler 
 	}
 
 	@Override
-	public MongoMBEndpoint getEndpoint() {
-		return (MongoMBEndpoint) super.getEndpoint();
+	public MongoTCEndpoint getEndpoint() {
+		return (MongoTCEndpoint) super.getEndpoint();
 	}
 
-	public MongoMBConfiguration getConfiguration() {
+	public MongoTCConfiguration getConfiguration() {
 		return getEndpoint().getConfiguration();
 	}
 
@@ -104,19 +104,19 @@ public class MongoMBConsumer extends DefaultConsumer implements DocumentHandler 
 		}
 	}
 
-	public static MTCConfiguration buildMTCConfigurationFromMongoMBConfiguration(
-			MongoMBConfiguration mbConfiguration) {
+	public static MTCConfiguration buildMTCConfigurationFromMongoTCConfiguration(
+			MongoTCConfiguration mbConfiguration) {
 
 		if (mbConfiguration == null)
 			throw new IllegalArgumentException(
-					"Not null MongoMBConfiguration expected");
+					"Not null MongoTCConfiguration expected");
 
 		MTCConfiguration mtcContiguration = new MTCConfiguration();
 		mtcContiguration.setCollection(mbConfiguration.getCollection());
 		mtcContiguration.setDatabase(mbConfiguration.getDatabase());
 		mtcContiguration.setMongoClient(mbConfiguration.getMongoClient());
 
-		MongoMBPersistentTrackingConfiguration pConf = mbConfiguration
+		MongoTCPersistentTrackingConfiguration pConf = mbConfiguration
 				.getPersistentTrackingConfiguration();
 		if (pConf != null) {
 			MTCPersistentTrackingConfiguration pMtcConfiguration = new MTCPersistentTrackingConfiguration();

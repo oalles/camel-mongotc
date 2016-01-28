@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.mongomb;
+package org.apache.camel.component.mongotc;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Exchange;
@@ -28,16 +28,16 @@ import org.apache.camel.spi.UriPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@UriEndpoint(scheme = "mongomb", title = "MongoDB Based EventSystem", syntax = "mongomb:connectionBean", consumerClass = MongoMBConsumer.class, label = "nosql, event system")
-public class MongoMBEndpoint extends DefaultEndpoint {
+@UriEndpoint(scheme = "mongomb", title = "MongoDB Based EventSystem", syntax = "mongomb:connectionBean", consumerClass = MongoTCConsumer.class, label = "nosql, event system")
+public class MongoTCEndpoint extends DefaultEndpoint {
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(MongoMBEndpoint.class);
+			.getLogger(MongoTCEndpoint.class);
 
 	/**
 	 * data needed for exchange interaction
 	 */
-	private MongoMBConfiguration configuration;
+	private MongoTCConfiguration configuration;
 
 	/**
 	 * MongoClient identifier in CAMEL REGISTRY
@@ -48,14 +48,14 @@ public class MongoMBEndpoint extends DefaultEndpoint {
 
 	// We are just going to allow fully initialized endpoint instances
 	/**
-	 * Constructs a partially-initialized MongoMBEndpoint instance. Useful when
+	 * Constructs a partially-initialized MongoTCEndpoint instance. Useful when
 	 * creating endpoints manually (e.g., as beans in Spring).
 	 */
-	// public MongoMBEndpoint() {
+	// public MongoTCEndpoint() {
 	// }
 
 	/**
-	 * Constructs a fully-initialized MongoMBEndpoint instance. This is the
+	 * Constructs a fully-initialized MongoTCEndpoint instance. This is the
 	 * preferred method of constructing an object from Java code (as opposed to
 	 * Spring beans, etc.).
 	 * 
@@ -64,9 +64,9 @@ public class MongoMBEndpoint extends DefaultEndpoint {
 	 * @param component
 	 *            the component that created this endpoint
 	 */
-	public MongoMBEndpoint(String uri, MongoMBComponent component) {
+	public MongoTCEndpoint(String uri, MongoTCComponent component) {
 		super(uri, component);
-		LOG.info("+ MongoMB - Endpoint created.");
+		LOG.info("+ MongoTC - Endpoint created.");
 	}
 
 	/**
@@ -82,17 +82,17 @@ public class MongoMBEndpoint extends DefaultEndpoint {
 	@Override
 	public Consumer createConsumer(Processor processor) throws Exception {
 
-		Consumer consumer = new MongoMBConsumer(this, processor);
+		Consumer consumer = new MongoTCConsumer(this, processor);
 		// configureConsumer(consumer);
-		LOG.debug("\n+ MongoMB - Consumer created.\n");
+		LOG.debug("\n+ MongoTC - Consumer created.\n");
 		return consumer;
 	}
 
-	public MongoMBConfiguration getConfiguration() {
+	public MongoTCConfiguration getConfiguration() {
 		return configuration;
 	}
 
-	public void setConfiguration(MongoMBConfiguration configuration) {
+	public void setConfiguration(MongoTCConfiguration configuration) {
 		this.configuration = configuration;
 	}
 

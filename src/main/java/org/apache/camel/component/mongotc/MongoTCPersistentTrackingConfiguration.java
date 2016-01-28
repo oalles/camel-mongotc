@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.mongomb;
+package org.apache.camel.component.mongotc;
 
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
@@ -25,7 +25,7 @@ import org.apache.camel.spi.UriParams;
  * processed.
  */
 @UriParams
-public class MongoMBPersistentTrackingConfiguration {
+public class MongoTCPersistentTrackingConfiguration {
 
 	public static final String TRACKER_COLLECTION_NAME = "tracker";
 	public static final String LAST_TRACK_ID_FIELD = "last-tracked-id";

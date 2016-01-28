@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.mongomb;
+package org.apache.camel.component.mongotc;
 
 import java.util.Map;
 
@@ -30,19 +30,19 @@ import org.slf4j.LoggerFactory;
 import com.mongodb.MongoClient;
 
 /**
- * Represents the component that manages {@link MongoMBEndpoint}s.
+ * Represents the component that manages {@link MongoTCEndpoint}s.
  */
-public class MongoMBComponent extends UriEndpointComponent {
+public class MongoTCComponent extends UriEndpointComponent {
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(MongoMBComponent.class);
+			.getLogger(MongoTCComponent.class);
 
-	public MongoMBComponent() {
-		super(MongoMBEndpoint.class);
+	public MongoTCComponent() {
+		super(MongoTCEndpoint.class);
 	}
 
-	public MongoMBComponent(CamelContext context) {
-		super(context, MongoMBEndpoint.class);
+	public MongoTCComponent(CamelContext context) {
+		super(context, MongoTCEndpoint.class);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class MongoMBComponent extends UriEndpointComponent {
 						URISupport.sanitizePath(remaining), parameters });
 
 		// Set configuration based on uri parameters
-		MongoMBConfiguration config = new MongoMBConfiguration();
+		MongoTCConfiguration config = new MongoTCConfiguration();
 		setProperties(config, parameters);
 
 		// Set persistent configuration based on persistent parameters
@@ -66,7 +66,7 @@ public class MongoMBComponent extends UriEndpointComponent {
 				.extractProperties(parameters, "persistent.");
 		if (tailTrackingProperties != null && !tailTrackingProperties.isEmpty()) {
 
-			MongoMBPersistentTrackingConfiguration ttConfig = new MongoMBPersistentTrackingConfiguration();
+			MongoTCPersistentTrackingConfiguration ttConfig = new MongoTCPersistentTrackingConfiguration();
 			setProperties(ttConfig, tailTrackingProperties);
 			config.setPersistentTrackingConfiguration(ttConfig);
 		}
@@ -83,7 +83,7 @@ public class MongoMBComponent extends UriEndpointComponent {
 		
 		// Notify persistence is ENABLED or NOT. 
 		StringBuffer m = new StringBuffer(
-				"\n+ MongoMB - Valid Configuration\n+ MongoMB - Persistent tracking:");
+				"\n+ MongoTC - Valid Configuration\n+ MongoTC - Persistent tracking:");
 		if (config.isPersistentTrackingEnable())
 			m.append(" ENABLED.");
 		else
@@ -92,7 +92,7 @@ public class MongoMBComponent extends UriEndpointComponent {
 
 		// Component is an Endpoint factory. So far, just one Endpoint type.
 		// Endpoint construction and configuration.
-		MongoMBEndpoint endpoint = new MongoMBEndpoint(uri, this);
+		MongoTCEndpoint endpoint = new MongoTCEndpoint(uri, this);
 		endpoint.setConfiguration(config);
 		endpoint.setConnectionBean(remaining);
 
