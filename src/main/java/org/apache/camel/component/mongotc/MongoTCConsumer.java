@@ -25,10 +25,10 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.neivi.mtc.DocumentHandler;
-import es.neivi.mtc.TailingTask;
-import es.neivi.mtc.configuration.MTCConfiguration;
-import es.neivi.mtc.configuration.MTCPersistentTrackingConfiguration;
+import es.omarall.configuration.MTCConfiguration;
+import es.omarall.configuration.MTCPersistentTrackingConfiguration;
+import es.omarall.mtc.DocumentHandler;
+import es.omarall.mtc.TailingTask;
 
 /**
  * The MongoESB consumer consumes messages from a capped collection with a

@@ -43,9 +43,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>es.neivi</groupId>
+			<groupId>es.omarall</groupId>
 			<artifactId>mtc</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- MongoDB driver dependency -->
